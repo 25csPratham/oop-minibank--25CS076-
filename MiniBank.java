@@ -2,47 +2,48 @@ public class MiniBank {
 
     public static void main(String[] args) {
 
-        Customer c1 = new Customer(
-                "Pratham Patel",
-                "pratham@gmail.com",
-                "9876543210"
-        );
+        Customer.Address address =
+                new Customer.Address(
+                        "101, MG Road",
+                        "Vadodara",
+                        "390001");
 
-        System.out.println("Customer Details");
-        System.out.println("---------------------------");
-        System.out.println("ID : " + c1.getCustomerId());
-        System.out.println("Name : " + c1.getName());
-        System.out.println("Email : " + c1.getEmail());
-        System.out.println("Mobile : " + c1.getMobile());
+        Customer customer =
+                new Customer(
+                        "Pratham Patel",
+                        "pratham@gmail.com",
+                        "9876543210",
+                        address);
+
+        Customer copy = customer.clone();
+
+        System.out.println("Customer ID : " + copy.getCustomerId());
+        System.out.println("City : " + copy.getAddress().getCity());
 
         System.out.println();
 
-        Account[] accounts = new Account[3];
+        Account a1 = new Account("Rahul",10000);
+        Account a2 = new Account("Priya",5000);
+        Account a3 = new Account("Rahul",10000);
 
-        accounts[0] = new Account("Rahul", 10000);
-        accounts[1] = new Account("Priya", 5000);
-        accounts[2] = new Account("Amit");
+        a1.deposit(3000);
+        a2.withdraw(1000);
 
-        accounts[0].deposit(2000);
-        accounts[0].withdraw(1500);
+        System.out.println(a1);
+        System.out.println(a2);
+        System.out.println(a3);
 
-        accounts[1].deposit(3000);
-        accounts[1].withdraw(1000);
+        System.out.println();
 
-        accounts[2].deposit(5000);
-        accounts[2].withdraw(2000);
+        System.out.println("a1 equals a2 : " + a1.equals(a2));
+        System.out.println("a1 equals a1 : " + a1.equals(a1));
 
-        System.out.println("Account Details");
-        System.out.println("--------------------------------------");
+        System.out.println();
 
-        for (Account account : accounts) {
+        Object obj = a1;
 
-            System.out.println("Account Number : " + account.getAccountNumber());
-            System.out.println("Owner Name     : " + account.getOwnerName());
-            System.out.println("Balance        : ₹" + account.getBalance());
-            System.out.println("Active         : " + account.isActive());
-
-            System.out.println("--------------------------------------");
+        if(obj instanceof Account){
+            System.out.println("obj is an Account");
         }
     }
 }
