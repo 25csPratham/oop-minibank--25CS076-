@@ -1,21 +1,69 @@
 public abstract class Account {
 
-    protected String holderName;
+
+    @Id
+    private long accountNumber;
+
+
+    @Positive
     protected long balance;
 
 
-    public Account(String holderName, long balance) {
+    @MaxLength(value = 20)
+    protected String holderName;
+
+
+
+    public Account(String holderName,long balance){
+
         this.holderName = holderName;
         this.balance = balance;
+
     }
+
 
 
     public abstract double yearlyInterest();
 
+
     public abstract boolean canWithdraw(long amount);
 
 
-    public String toString() {
-        return holderName + " Account Balance = " + balance;
+
+    @Override
+    public String toString(){
+
+        return holderName + " Balance = " + balance;
+
     }
+
+
+
+    @Override
+    public boolean equals(Object obj){
+
+        if(this==obj)
+            return true;
+
+        if(obj instanceof Account){
+
+            Account a=(Account)obj;
+
+            return holderName.equals(a.holderName);
+
+        }
+
+        return false;
+
+    }
+
+
+
+    @Override
+    public int hashCode(){
+
+        return holderName.hashCode();
+
+    }
+
 }
