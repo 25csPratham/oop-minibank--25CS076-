@@ -1,16 +1,9 @@
 public abstract class Account {
 
 
-    @Id
-    private long accountNumber;
-
-
-    @Positive
-    protected long balance;
-
-
-    @MaxLength(value = 20)
     protected String holderName;
+
+    protected long balance;
 
 
 
@@ -23,46 +16,95 @@ public abstract class Account {
 
 
 
-    public abstract double yearlyInterest();
+    public void withdraw(long amount)
+    throws InsufficientFundsException, InvalidAmountException {
 
 
-    public abstract boolean canWithdraw(long amount);
+        if(amount <= 0){
 
-
-
-    @Override
-    public String toString(){
-
-        return holderName + " Balance = " + balance;
-
-    }
-
-
-
-    @Override
-    public boolean equals(Object obj){
-
-        if(this==obj)
-            return true;
-
-        if(obj instanceof Account){
-
-            Account a=(Account)obj;
-
-            return holderName.equals(a.holderName);
+            throw new InvalidAmountException(
+                "Withdrawal amount must be positive"
+            );
 
         }
 
-        return false;
+
+        if(amount > balance){
+
+
+            long shortfall = amount - balance;
+
+
+            throw new InsufficientFundsException(shortfall);
+
+        }
+
+
+        balance -= amount;
 
     }
 
 
 
-    @Override
-    public int hashCode(){
+    public void deposit(long amount)
+    throws InvalidAmountException {
 
-        return holderName.hashCode();
+
+        if(amount <= 0){
+
+            throw new InvalidAmountException(
+                "Deposit amount must be positive"
+            );
+
+        }
+
+
+        balance += amount;
+
+    }
+
+
+
+
+    public void transfer(Account to,long amount)
+    throws BankException {
+
+
+        try{
+
+
+            this.withdraw(amount);
+
+            to.deposit(amount);
+
+
+        }
+        catch(BankException e){
+
+
+            throw e;
+
+        }
+        finally{
+
+
+            System.out.println("Transfer operation completed");
+
+        }
+
+
+    }
+
+
+
+    public abstract double yearlyInterest();
+
+
+
+    public String toString(){
+
+        return holderName +
+        " Balance = " + balance;
 
     }
 
