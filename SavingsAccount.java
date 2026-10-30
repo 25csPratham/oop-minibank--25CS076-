@@ -1,22 +1,20 @@
 public class SavingsAccount extends Account {
 
-    private long minBalance;
+    private long minimumBalance;
 
-    public SavingsAccount(String ownerName,
-                          long openingBalance,
-                          long minBalance) {
 
-        super(ownerName, openingBalance);
-        this.minBalance = minBalance;
+    public SavingsAccount(String name, long balance, long minimumBalance) {
+        super(name, balance);
+        this.minimumBalance = minimumBalance;
     }
 
-    @Override
-    public double interestRate() {
-        return 4.0;
+
+    public double yearlyInterest() {
+        return balance * 0.04;
     }
 
-    @Override
+
     public boolean canWithdraw(long amount) {
-        return (balance - amount) >= minBalance;
+        return (balance - amount) >= minimumBalance;
     }
 }

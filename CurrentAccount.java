@@ -2,21 +2,19 @@ public class CurrentAccount extends Account {
 
     private long overdraftLimit;
 
-    public CurrentAccount(String ownerName,
-                          long openingBalance,
-                          long overdraftLimit) {
 
-        super(ownerName, openingBalance);
+    public CurrentAccount(String name, long balance, long overdraftLimit) {
+        super(name, balance);
         this.overdraftLimit = overdraftLimit;
     }
 
-    @Override
-    public double interestRate() {
-        return 0.0;
+
+    public double yearlyInterest() {
+        return balance * 0.02;
     }
 
-    @Override
+
     public boolean canWithdraw(long amount) {
-        return (balance - amount) >= (-overdraftLimit);
+        return amount <= balance + overdraftLimit;
     }
 }
