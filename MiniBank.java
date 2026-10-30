@@ -2,68 +2,61 @@ public class MiniBank {
 
     public static void main(String[] args) {
 
-        System.out.println("Mobile");
+        Account[] accounts = {
 
-        System.out.println(
-                Validator.isValidMobile("9876543210"));
+            new SavingsAccount(
+                    "Rahul",
+                    10000,
+                    1000),
 
-        System.out.println(
-                Validator.isValidMobile("12345"));
+            new CurrentAccount(
+                    "Priya",
+                    5000,
+                    3000),
 
+            new FixedDepositAccount(
+                    "Amit",
+                    50000)
+        };
 
+        System.out.println("Interest Rates");
 
-        System.out.println("\nEmail");
+        System.out.println("---------------------");
 
-        System.out.println(
-                Validator.isValidEmail("abc@gmail.com"));
+        for (Account account : accounts) {
 
-        System.out.println(
-                Validator.isValidEmail("abcgmail.com"));
+            System.out.println(account);
 
+            System.out.println("Interest : "
+                    + account.interestRate()
+                    + "%");
 
+            if (account instanceof SavingsAccount ) {
 
-        System.out.println("\nPAN");
+                System.out.println(
+                        "Savings Account detected");
 
-        System.out.println(
-                Validator.isValidPan("ABCDE1234F"));
+            }
 
-        System.out.println(
-                Validator.isValidPan("ABC12"));
+            System.out.println();
+        }
 
+        System.out.println("Withdrawal Test");
 
+        System.out.println("---------------------");
 
-        System.out.println("\nIFSC");
+        for (Account account : accounts) {
 
-        System.out.println(
-                Validator.isValidIfsc("SBIN0001234"));
+            boolean result =
+                    account.withdraw(2000);
 
-        System.out.println(
-                Validator.isValidIfsc("12345"));
+            System.out.println(
+                    account.getAccountNumber()
+                            + " -> "
+                            + result
+                            + " Balance : ₹"
+                            + account.getBalance());
+        }
 
-
-
-        Command command =
-                CommandParser.parse(
-                        "DEPOSIT AC0001 500");
-
-        System.out.println("\nParsed Command");
-
-        System.out.println(command.type());
-
-        System.out.println(command.accountNumber());
-
-        System.out.println(command.amount());
-
-
-
-        Account account =
-                new Account("Rahul",10000);
-
-        account.deposit(2000);
-
-        System.out.println();
-
-        System.out.println(
-                StatementFormatter.buildStatement(account));
     }
 }
