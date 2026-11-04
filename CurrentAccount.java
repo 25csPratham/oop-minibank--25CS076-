@@ -1,20 +1,27 @@
 public class CurrentAccount extends Account {
+    private static final long serialVersionUID = 1L;
+    private final long overdraftLimit;
 
-    private long overdraftLimit;
-
-
-    public CurrentAccount(String name, long balance, long overdraftLimit) {
-        super(name, balance);
+    public CurrentAccount(String ownerName, long balance, long overdraftLimit) {
+        super(ownerName, balance);
         this.overdraftLimit = overdraftLimit;
     }
 
-
-    public double yearlyInterest() {
-        return balance * 0.02;
+    public CurrentAccount(String ownerName, long balance) {
+        this(ownerName, balance, 5000);
     }
 
+    public long getOverdraftLimit() {
+        return overdraftLimit;
+    }
 
+    @Override
+    public double interestRate() {
+        return 0.0;
+    }
+
+    @Override
     public boolean canWithdraw(long amount) {
-        return amount <= balance + overdraftLimit;
+        return (balance - amount) >= -overdraftLimit;
     }
 }

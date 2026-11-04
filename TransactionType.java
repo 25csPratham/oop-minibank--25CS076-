@@ -1,7 +1,4 @@
-package model;
-public enum TransactionType
-{
-
+public enum TransactionType {
     DEPOSIT,
     WITHDRAW,
     TRANSFER

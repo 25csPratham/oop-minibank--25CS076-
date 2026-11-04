@@ -1,5 +1,1 @@
-package model;
-
-public interface Premium {
-
-}
+public interface Premium {}

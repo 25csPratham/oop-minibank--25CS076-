@@ -1,20 +1,27 @@
 public class SavingsAccount extends Account {
+    private static final long serialVersionUID = 1L;
+    private final long minBalance;
 
-    private long minimumBalance;
-
-
-    public SavingsAccount(String name, long balance, long minimumBalance) {
-        super(name, balance);
-        this.minimumBalance = minimumBalance;
+    public SavingsAccount(String ownerName, long balance, long minBalance) {
+        super(ownerName, balance);
+        this.minBalance = minBalance;
     }
 
-
-    public double yearlyInterest() {
-        return balance * 0.04;
+    public SavingsAccount(String ownerName, long balance) {
+        this(ownerName, balance, 1000);
     }
 
+    public long getMinBalance() {
+        return minBalance;
+    }
 
+    @Override
+    public double interestRate() {
+        return 4.0;
+    }
+
+    @Override
     public boolean canWithdraw(long amount) {
-        return (balance - amount) >= minimumBalance;
+        return (balance - amount) >= minBalance;
     }
 }

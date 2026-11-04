@@ -1,23 +1,32 @@
-public class Customer implements Cloneable {
+import java.io.Serializable;
+
+public class Customer implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private final String customerId;
 
     private String name;
     private String email;
     private String mobile;
-    private final String customerId;
     private Address address;
 
     private static long customerCounter = 101;
 
-    private static String generateCustomerId() {
+    private static synchronized String generateCustomerId() {
         return "CUST" + customerCounter++;
     }
 
     public Customer(String name, String email, String mobile, Address address) {
+        this.customerId = generateCustomerId();
         this.name = name;
         this.email = email;
         this.mobile = mobile;
         this.address = address;
-        this.customerId = generateCustomerId();
+    }
+
+    public Customer(String name, String email, String mobile) {
+        this(name, email, mobile, null);
     }
 
     public String getCustomerId() {
@@ -28,30 +37,55 @@ public class Customer implements Cloneable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getMobile() {
         return mobile;
     }
 
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public Address getAddress() {
         return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
     public Customer clone() {
         try {
-            return (Customer) super.clone();
+            Customer copy = (Customer) super.clone();
+            if (this.address != null) {
+                copy.address = new Address(this.address.getLine(), this.address.getCity(), this.address.getPincode());
+            }
+            return copy;
         } catch (CloneNotSupportedException e) {
             return null;
         }
     }
 
-    // Static Nested Class
-    public static class Address {
+    @Override
+    public String toString() {
+        return customerId + " | " + name + " | " + email + " | " + mobile;
+    }
 
+    // Static Nested Class
+    public static class Address implements Serializable {
+        private static final long serialVersionUID = 1L;
         private String line;
         private String city;
         private String pincode;
@@ -72,6 +106,11 @@ public class Customer implements Cloneable {
 
         public String getPincode() {
             return pincode;
+        }
+
+        @Override
+        public String toString() {
+            return line + ", " + city + " - " + pincode;
         }
     }
 }
